@@ -1,0 +1,118 @@
+# Cyclist data on R
+
+
+install.packages("tidyverse")
+library(tidyverse)
+library(readr)
+
+read.csv("Tripdata_2020_06_01.csv")
+read.csv("Tripdata_2020_07_06.csv")
+read.csv("Tripdata_2020_08_12.csv")
+read.csv("Tripdata_2020_09_04.csv")
+read.csv("Tripdata_2020_10_14.csv")
+read.csv("Tripdata_2020_11_04.csv")
+read.csv("Tripdata_2020_12_05.csv")
+read.csv("Tripdata_2021_01_05.csv")
+read.csv("Tripdata_2021_02_05.csv")
+read.csv("Tripdata_2021_03_10.csv")
+read.csv("Tripdata_2021_04_08.csv")
+read.csv("Tripdata_2021_05_07.csv")
+
+june_2020 <- read.csv("Tripdata_2020_06_01.csv")
+july_2020 <- read.csv("Tripdata_2020_07_06.csv")
+august_2020 <- read.csv("Tripdata_2020_08_12.csv")
+septrmber_2020 <- read.csv("Tripdata_2020_09_04.csv")
+october_2020 <- read.csv("Tripdata_2020_10_14.csv")
+november_2020 <- read.csv("Tripdata_2020_11_04.csv")
+december_2020 <- read.csv("Tripdata_2020_12_05.csv")
+jan_2021 <- read.csv("Tripdata_2021_01_05.csv")
+feb_2021 <- read.csv("Tripdata_2021_02_05.csv")
+mar_2021 <- read.csv("Tripdata_2021_03_10.csv")
+apr_2021 <- read.csv("Tripdata_2021_04_08.csv")
+may_2021 <- read.csv("Tripdata_2021_05_07.csv")
+
+glimpse(july_2020)
+
+read.csv("Tripdata_2020_05_updated.csv")
+read.csv("Tripdata_2020_06_updated.csv")
+read.csv("Tripdata_2020_07_updated.csv")
+read.csv("Tripdata_2020_08_updated.csv")
+read.csv("Tripdata_2020_09_updated.csv")
+read.csv("Tripdata_2020_10_updated.csv")
+read.csv("Tripdata_2020_11_updated.csv")
+read.csv("Tripdata_2020_12_updated.csv")
+read.csv("Tripdata_2021_01_updated.csv")
+read.csv("Tripdata_2021_02_updated.csv")
+read.csv("Tripdata_2021_03_updated.csv")
+read.csv("Tripdata_2021_04_updated.csv")
+
+may_2020_updated <- read.csv("Tripdata_2020_05_updated.csv")
+june_2020_updated <- read.csv("Tripdata_2020_06_updated.csv")
+july_2020_updated <- read.csv("Tripdata_2020_07_updated.csv")
+august_2020_updated <- read.csv("Tripdata_2020_08_updated.csv")
+september_2020_updated <- read.csv("Tripdata_2020_09_updated.csv")
+october_2020_updated <- read.csv("Tripdata_2020_10_updated.csv")
+november_2020_updated <- read.csv("Tripdata_2020_11_updated.csv")
+december_2020_updated <- read.csv("Tripdata_2020_12_updated.csv")
+jan_2021_updated <- read.csv("Tripdata_2021_01_updated.csv")
+feb_2021_updated <- read.csv("Tripdata_2021_02_updated.csv")
+mar_2021_updated <- read.csv("Tripdata_2021_03_updated.csv")
+apr_2021_updated <- read.csv("Tripdata_2021_04_updated.csv")
+
+install.packages("dplyr")
+library(dplyr)
+View(feb_2021_updated)
+
+may_2020_updated <- mutate(may_2020_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+june_2020_updated <- mutate(june_2020_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+july_2020_updated <- mutate(july_2020_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+august_2020_updated <- mutate(august_2020_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+september_2020_updated <- mutate(september_2020_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+october_2020_updated <- mutate(october_2020_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+november_2020_updated <- mutate(november_2020_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+december_2020_updated <- mutate(december_2020_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+jan_2021_updated <- mutate(jan_2021_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+feb_2021_updated <- mutate(feb_2021_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+mar_2021_updated <- mutate(mar_2021_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+apr_2021_updated <- mutate(apr_2021_updated, start_station_id = as.character(start_station_id), end_station_id = as.character(end_station_id))
+
+
+all_trips <- bind_rows(may_2020_updated,june_2020_updated,july_2020_updated,august_2020_updated,september_2020_updated,october_2020_updated,november_2020_updated,december_2020_updated,
+                       jan_2021_updated,feb_2021_updated,mar_2021_updated,apr_2021_updated)
+glimpse(all_trips)
+summary(all_trips)
+
+all_trips$start_lat = NULL
+all_trips$end_lng = NULL
+all_trips$start_lng = NULL
+all_trips$end_lat = NULL
+all_trips_new <- arrange(all_trips)
+
+
+all_trips_new %>% 
+  group_by(member_casual,day_of_week) %>% 
+  summarise(number_of_rides = n()) %>% 
+  arrange(member_casual,day_of_week) %>% 
+  ggplot(aes(x=day_of_week, y = number_of_rides, fill = member_casual)) +
+  geom_col(position = "dodge")
+  
+
+all_trips %>% 
+  group_by(member_casual,day_of_week) %>% 
+  summarize(number_of_ride = n()) %>% 
+  filter(member_casual == 'casual') %>% 
+  ggplot(aes(x=day_of_week, y = number_of_ride, fill = member_casual)) + 
+  geom_bar(position = 'dodge', stat = 'identity')
+
+all_trips %>% 
+  group_by(member_casual,day_of_week) %>% 
+  summarise(number_of_ride = n()) %>% 
+  ggplot(aes(x=day_of_week,y=number_of_ride, fill = member_casual)) +
+  geom_bar(position = 'dodge', stat = 'identity')
+
+all_trips_new %>% 
+  group_by(member_casual,rideable_type) %>% 
+  summarize(total = n()) %>% 
+  ggplot() + geom_col(aes(x=member_casual, y = total, fill = rideable_type) ,position = 'dodge',color="black") + 
+  labs(title = "Bike type usage by subscriber type", x="Subscriber type", y = NULL,fill = "Bike type") + 
+  theme(legend.position = "top")
